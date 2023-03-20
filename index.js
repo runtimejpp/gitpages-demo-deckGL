@@ -65,8 +65,9 @@ window.initMap = () => {
 
     const map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 40.0, lng: -100.0 },
-        zoom: 5,
-        styles: mapStyles
+        zoom: 8,
+        styles: mapStyles,
+        mapID: 'c8d6de4fb9bb7665'
     });
 
     const overlay = new GoogleMapsOverlay({
