@@ -21,50 +21,50 @@ const scatterplot = () => new ScatterplotLayer({
     getFillColor: d => d.n_killed > 0 ? [200, 0, 40, 150] : [255, 140, 0, 100],
 
     pickable: true,
-    onHover: ({object, x, y}) => {
+    onHover: ({ object, x, y }) => {
         const el = document.getElementById('tooltip');
         if (object) {
-          const { n_killed, incident_id } = object;
-          el.innerHTML = `<h1>ID ${incident_id}</h1>`
-          el.style.display = 'block';
-          el.style.opacity = 0.9;
-          el.style.left = x + 'px';
-          el.style.top = y + 'px';
+            const { n_killed, incident_id } = object;
+            el.innerHTML = `<h1>ID ${incident_id}</h1>`
+            el.style.display = 'block';
+            el.style.opacity = 0.9;
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
         } else {
-          el.style.opacity = 0.0;
+            el.style.opacity = 0.0;
         }
     },
 
-    onClick: ({object, x, y}) => {
-      window.open(`https://www.gunviolencearchive.org/incident/${object.incident_id}`)
+    onClick: ({ object, x, y }) => {
+        window.open(`https://www.gunviolencearchive.org/incident/${object.incident_id}`)
     },
-     
-  });
+
+});
 
 
 const heatmap = () => new HeatmapLayer({
-      id: 'heat',
-      data: sourceData,
-      getPosition: d => [d.longitude, d.latitude],
-      getWeight: d => d.n_killed + (d.n_injured * 0.5),
-      radiusPixels: 60,
+    id: 'heat',
+    data: sourceData,
+    getPosition: d => [d.longitude, d.latitude],
+    getWeight: d => d.n_killed + (d.n_injured * 0.5),
+    radiusPixels: 60,
 });
 const hexagon = () => new HexagonLayer({
-        id: 'hex',
-        data: sourceData,
-        getPosition: d => [d.longitude, d.latitude],
-        getElevationWeight: d => (d.n_killed * 2) + d.n_injured,
-        elevationScale: 100,
-        extruded: true,
-        radius: 1609,         
-        opacity: 0.6,        
-        coverage: 0.88,
-        lowerPercentile: 50
-    });
+    id: 'hex',
+    data: sourceData,
+    getPosition: d => [d.longitude, d.latitude],
+    getElevationWeight: d => (d.n_killed * 2) + d.n_injured,
+    elevationScale: 100,
+    extruded: true,
+    radius: 1609,
+    opacity: 0.6,
+    coverage: 0.88,
+    lowerPercentile: 50
+});
 window.initMap = () => {
 
     const map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 40.0, lng: -100.0},
+        center: { lat: 40.0, lng: -100.0 },
         zoom: 5,
         styles: mapStyles
     });
@@ -72,12 +72,12 @@ window.initMap = () => {
     const overlay = new GoogleMapsOverlay({
         layers: [
             scatterplot(),
-            //heatmap(),
-            hexagon()
+            heatmap(),
+            hexagon(),
         ],
     });
 
-    
+
     overlay.setMap(map);
 }
 
